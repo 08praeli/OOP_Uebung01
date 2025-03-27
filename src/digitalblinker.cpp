@@ -26,3 +26,10 @@ void digitalblinker::poll()
         last = millis();
     }
 }
+void digitalblinker::setblinktime(uint16_t bt)
+{
+    if (bt <= 10000 && bt > 0) // Wert zwischne 10 sek und 0
+        blinktime = bt;
+    else
+        Serial.print(" Wrong Value ( 0-10000 ms )");
+}
