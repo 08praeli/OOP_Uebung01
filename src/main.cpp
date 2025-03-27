@@ -22,20 +22,63 @@
 // *                                                                          *
 // ****************************************************************************
 
-#include <Arduino.h> 
+#include <Arduino.h>
+#include "analogblinker.h"
+#include "digitalblinker.h"
+#include "helper.h"
+
+analogblinker ablink1;
+digitalblinker dblink1;
+button bt1;
+button bt2;
 
 #define LED1 5    // Low-side switch (leuchtet mit LOW)
 #define LED2 3    // Low-side switch (leuchtet mit LOW)
 #define TASTER1 2 // LOW wenn gedrückt
 #define TASTER2 4 // LOW wenn gedrückt
-#define POT1 A7   
+#define POT1 A7
+#define DBTIME 50
+#define LONGPRESSTIME 1000
+
+uint16_t blinktime = 50;
+uint8_t potvalue;
+bool enableD = false;
+bool enableA = false;
 
 void setup()
 {
+    pinMode(POT1, INPUT);
+    pinMode(LED1, OUTPUT);
+    pinMode(LED2, OUTPUT);
+    pinMode(TASTER1, INPUT);
+    pinMode(TASTER2, INPUT);
     Serial.begin(115200); // Baud rate
     Serial.println("..Start..\n");
+    bt1.init(TASTER1, DBTIME, LONGPRESSTIME);
+    dblink1.init(enableD, blinktime, LED1, LED2);
+    ablink1.init(LED1, LED2, blinktime, 50, false, enableA);
 }
 
 void loop()
 {
+    potvalue = analogRead(POT1);
+
+    if (bt1.longpress)
+    {
+        if (enableA)
+            enableD = false;
+        else
+            enableD = !enableD;
+    }
+    if (bt2.longpress)
+    {
+        if (enableD)
+            enableA = false;
+        else
+            enableA = !enableA;
+    }
+    ablink1.setblinktime(50 + (950 * (potvalue / 1023)));
+    dblink1.setblinktime(50 + (950 * (potvalue / 1023)));
+    ablink1.poll();
+    dblink1.poll();
 }
