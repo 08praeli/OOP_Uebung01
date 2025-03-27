@@ -11,11 +11,7 @@ void button::init(uint8_t _taster, bool _inv, uint8_t _debounce_time, uint16_t _
 
 void button::poll()
 {
-    if (inv)
-        in = !digitalRead(taster);
-    else
-        in = digitalRead(taster);
-
+    in = inv ? !digitalRead(taster) : digitalRead(taster);
     debounce();
     flanke();
     check_longpress();
@@ -27,14 +23,10 @@ void button::debounce()
     {
         if (in != db_vorher)
         {
-            out = db_vorher;
+            last = millis();
         }
-        else
-        {
-            out = in;
-        }
-        last = millis();
         db_vorher = in;
+        out = db_vorher;
     }
 }
 
