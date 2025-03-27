@@ -13,8 +13,8 @@ void digitalblinker::poll()
 {
     if (!enable)
     {
-        digitalWrite(led1, LOW);
-        digitalWrite(led2, LOW);
+        digitalWrite(led1, 1);
+        digitalWrite(led2, 1);
         return;
     }
 

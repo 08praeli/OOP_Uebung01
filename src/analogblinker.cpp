@@ -20,8 +20,8 @@ void analogblinker::poll()
 {
     if (!enable)
     {
-        analogWrite(pin1, 0);
-        analogWrite(pin2, 0);
+         analogWrite(pin1, 255);
+         analogWrite(pin2, 255);
         return;
     }
     else if (millis() - lastpoll > polltime)
@@ -39,6 +39,7 @@ void analogblinker::poll()
         else
             analogWrite(pin2, 255 - pwm);
         lastpoll = millis();
+        Serial.println("analog läuft ");
     }
 }
 void analogblinker::setblinktime(uint16_t bt)
