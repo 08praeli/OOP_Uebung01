@@ -43,8 +43,8 @@ void analogblinker::poll()
 }
 void analogblinker::setblinktime(uint16_t bt)
 {
-    if (bt <= 1000 && bt > 50) // Wert zwischne 10 sek und 0
+    if (bt <= 1000 && bt >= 50) // Wert zwischne 10 sek und 0
         blinkTime = bt;
     else
-        Serial.print(" Wrong Value ( 0-10000 ms )");
+        Serial.print(" Wrong Value ( 0-1000 ms )");
 }

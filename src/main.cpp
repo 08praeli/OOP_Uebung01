@@ -41,7 +41,7 @@ button bt2;
 #define LONGPRESSTIME 1000
 
 uint16_t blinktime = 50;
-uint8_t potvalue;
+uint16_t potvalue;
 bool enableD = false;
 bool enableA = false;
 
@@ -82,6 +82,8 @@ void loop()
         else
             enableA = !enableA;
     }
-    ablink1.setblinktime(50 + (950 * (potvalue / 1023)));
-    dblink1.setblinktime(50 + (950 * (potvalue / 1023)));
+    ablink1.setblinktime(50 + (950 * (potvalue / 1023.0)));
+    dblink1.setblinktime(50 + (950 * (potvalue / 1023.0)));
+    Serial.println(50 + (950 * (potvalue / 1023.0)));
+
 }
