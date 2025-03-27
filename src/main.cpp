@@ -50,8 +50,8 @@ void setup()
     pinMode(POT1, INPUT);
     pinMode(LED1, OUTPUT);
     pinMode(LED2, OUTPUT);
-    pinMode(TASTER1, INPUT);
-    pinMode(TASTER2, INPUT);
+    pinMode(TASTER1, INPUT_PULLUP);
+    pinMode(TASTER2, INPUT_PULLUP);
     Serial.begin(115200); // Baud rate
     Serial.println("..Start..\n");
     bt1.init(TASTER1, true, DBTIME, LONGPRESSTIME);
@@ -84,6 +84,6 @@ void loop()
     }
     ablink1.setblinktime(50 + (950 * (potvalue / 1023.0)));
     dblink1.setblinktime(50 + (950 * (potvalue / 1023.0)));
-    Serial.println(50 + (950 * (potvalue / 1023.0)));
+    
 
 }
