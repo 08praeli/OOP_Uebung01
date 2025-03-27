@@ -31,8 +31,8 @@ digitalblinker dblink1;
 button bt1;
 button bt2;
 
-#define LED1 5    // Low-side switch (leuchtet mit LOW)
-#define LED2 3    // Low-side switch (leuchtet mit LOW)
+#define LED1 5    // Low-side switch (leuchtet mit Low)
+#define LED2 3    // Low-side switch (leuchtet mit Low)
 #define TASTER1 2 // LOW wenn gedrückt
 #define TASTER2 4 // LOW wenn gedrückt
 #define POT1 A7
@@ -45,7 +45,9 @@ bool enableD = false;
 bool enableA = false;
 
 void setup()
-{
+{   
+    digitalWrite(LED1,1);
+    digitalWrite(LED2,1);
     pinMode(POT1, INPUT);
     pinMode(LED1, OUTPUT);
     pinMode(LED2, OUTPUT);
@@ -53,8 +55,10 @@ void setup()
     pinMode(TASTER2, INPUT_PULLUP);
     Serial.begin(115200); // Baud rate
     Serial.println("..Start..\n");
-    bt1.init(TASTER1, DBTIME, LONGPRESSTIME);
-    bt2.init(TASTER2, DBTIME, LONGPRESSTIME);
+    bt1.init(TASTER1,  DBTIME, LONGPRESSTIME);
+    bt2.init(TASTER2,  DBTIME, LONGPRESSTIME);
+    dblink1.init(0, blinktime, LED1, LED2);
+    ablink1.init(LED1, LED2, blinktime, 10, false, 0);
 }
 
 void loop()
