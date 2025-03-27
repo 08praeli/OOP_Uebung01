@@ -40,7 +40,7 @@ button bt2;
 #define LONGPRESSTIME 1000
 
 uint16_t blinktime = 50;
-uint8_t potvalue;
+uint16_t potvalue;
 bool enableD = false;
 bool enableA = false;
 
@@ -49,7 +49,7 @@ void setup()
     pinMode(POT1, INPUT);
     pinMode(LED1, OUTPUT);
     pinMode(LED2, OUTPUT);
-    pinMode(TASTER1, INPUT);
+    pinMode(TASTER1, INPUT_PULLUP);
     pinMode(TASTER2, INPUT_PULLUP);
     Serial.begin(115200); // Baud rate
     Serial.println("..Start..\n");
@@ -59,22 +59,36 @@ void setup()
 
 void loop()
 {
-    dblink1.init(enableD, potvalue, LED1, LED2);
-    dblink1.poll();
     bt1.poll();
     bt2.poll();
     potvalue = analogRead(POT1);
+
     if (bt2.neg)
     {
-        Serial.println(bt2.neg);
         if (enableA)
             enableD = false;
         else
             enableD = !enableD;
-        Serial.println("ENABLE D");
-        Serial.println(enableD);
     }
-  
-    ablink1.setblinktime(50 + (950 * (potvalue / 1023)));
-    dblink1.setblinktime(50 + (950 * (potvalue / 1023)));
+    if (bt1.neg)
+    {
+        if (enableD)
+            enableA = false;
+        else
+            enableA = !enableA;
+    }
+
+    if (enableA)
+    {
+        ablink1.init(LED1, LED2, potvalue, 50, false, enableA);
+        ablink1.poll();
+    }
+    else if (enableD)
+    {
+        dblink1.init(enableD, potvalue, LED1, LED2);
+        dblink1.poll();
+    }
+
+    ablink1.setblinktime(50 + (950 * (potvalue / 1023.0)));
+    dblink1.setblinktime(50 + (950 * (potvalue / 1023.0)));
 }

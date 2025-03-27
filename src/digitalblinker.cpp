@@ -13,17 +13,19 @@ void digitalblinker::poll()
 {
     if (!enable)
     {
-        digitalWrite(led1, LOW);
+        digitalWrite(led1, HIGH);
         digitalWrite(led2, HIGH);
         return;
     }
-
-    if (millis() - last > blinktime)
+    else
     {
-        state = !state;
-        digitalWrite(led1, state);
-        digitalWrite(led2, state);
-        last = millis();
+        if (millis() - last > blinktime)
+        {
+            state = !state;
+            digitalWrite(led1, state);
+            digitalWrite(led2, !state);
+            last = millis();
+        }
     }
 }
 void digitalblinker::setblinktime(uint16_t bt)
