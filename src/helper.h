@@ -7,10 +7,10 @@ class button
 {
     // Member-Variable(n)
 public:
-    bool in, db_vorher, out, vorher = false;
+    bool in, db_vorher, out, vorher, inv = false;
     // Methode(n)
-    // Pin-Nummer, Debounce-Zeit [ms], Zeitgrenze für langen Druck [ms]
-    void init(uint8_t, uint8_t, uint16_t);
+    // Pin-Nummer, Invertierung, Debounce-Zeit [ms], Zeitgrenze für langen Druck [ms]
+    void init(uint8_t, bool, uint8_t, uint16_t);
 
     void poll();
 

@@ -54,13 +54,18 @@ void setup()
     pinMode(TASTER2, INPUT);
     Serial.begin(115200); // Baud rate
     Serial.println("..Start..\n");
-    bt1.init(TASTER1, DBTIME, LONGPRESSTIME);
+    bt1.init(TASTER1, true, DBTIME, LONGPRESSTIME);
+    bt2.init(TASTER2, true, DBTIME, LONGPRESSTIME);
     dblink1.init(enableD, blinktime, LED1, LED2);
     ablink1.init(LED1, LED2, blinktime, 50, false, enableA);
 }
 
 void loop()
 {
+    ablink1.poll();
+    dblink1.poll();
+    bt1.poll();
+    bt2.poll();
     potvalue = analogRead(POT1);
 
     if (bt1.longpress)
@@ -79,6 +84,4 @@ void loop()
     }
     ablink1.setblinktime(50 + (950 * (potvalue / 1023)));
     dblink1.setblinktime(50 + (950 * (potvalue / 1023)));
-    ablink1.poll();
-    dblink1.poll();
 }
